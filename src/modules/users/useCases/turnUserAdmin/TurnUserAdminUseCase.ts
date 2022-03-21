@@ -6,10 +6,19 @@ interface IRequest {
 }
 
 class TurnUserAdminUseCase {
-  constructor(private usersRepository: IUsersRepository) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private usersRepository: IUsersRepository) { }
 
   execute({ user_id }: IRequest): User {
-    // Complete aqui
+    const userToUpdate = this.usersRepository.findById(user_id);
+
+    if (!userToUpdate) {
+      throw new Error("User not found!");
+    }
+
+    const userUpdated = this.usersRepository.turnAdmin(userToUpdate);
+
+    return userUpdated;
   }
 }
 
